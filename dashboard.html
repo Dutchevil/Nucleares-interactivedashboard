@@ -6133,62 +6133,75 @@ function highlightGroupBg(id, color) {
 	}
 
  document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementById('plant-container');
-  const svg = container.querySelector('svg');
+  const svg = document.querySelector('#plant-container svg');
   if (!svg) return;
-  let scale = 1, offsetX = 0, offsetY = 0;
+
+  // capture initial viewBox
+  const vb = svg.viewBox.baseVal;
+  const origW = vb.width, origH = vb.height;
+
+  // pan state
   let isPanning = false, startX, startY;
 
-  function updateTransform() {
-    svg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
-  }
+// capture the original viewBox position once
+const startVBX = vb.x, startVBY = vb.y;
 
 svg.addEventListener('wheel', e => {
   e.preventDefault();
-
   const rect   = svg.getBoundingClientRect();
-  const mx     = e.clientX - rect.left  - offsetX;
-  const my     = e.clientY - rect.top   - offsetY;
-  const wx     = mx / scale;
-  const wy     = my / scale;
-  const factor = e.deltaY < 0 ? 1.1 : 0.9;
-  let newScale = scale * factor;
-  newScale = Math.max(1, Math.min(newScale, 10));
+  const mx     = (e.clientX - rect.left) / rect.width;
+  const my     = (e.clientY - rect.top ) / rect.height;
+  const factor = e.deltaY < 0 ? 0.9 : 1.1;
 
-  if (newScale === 1) {
-    offsetX = 0;
-    offsetY = 0;
+  // compute new size
+  let newW = vb.width  * factor;
+  let newH = vb.height * factor;
+
+  // clamp to [orig/10 .. orig]
+  const minW = origW / 10, minH = origH / 10;
+  const maxW = origW,      maxH = origH;
+  newW = Math.min(Math.max(newW, minW), maxW);
+  newH = Math.min(Math.max(newH, minH), maxH);
+
+  if (newW === origW && newH === origH) {
+    // fully zoomed out: reset pan
+    vb.x = startVBX;
+    vb.y = startVBY;
   } else {
-    offsetX = e.clientX - rect.left - wx * newScale;
-    offsetY = e.clientY - rect.top  - wy * newScale;
+    // zoomed in: anchor at cursor
+    vb.x += (vb.width  - newW) * mx;
+    vb.y += (vb.height - newH) * my;
   }
 
-  scale = newScale;
-  updateTransform();
+  // apply new viewBox dimensions
+  vb.width  = newW;
+  vb.height = newH;
   });
 
+  // PAN: drag to move viewBox
   svg.addEventListener('mousedown', e => {
     isPanning = true;
-    startX = e.clientX - offsetX;
-    startY = e.clientY - offsetY;
+    startX = e.clientX;
+    startY = e.clientY;
     svg.style.cursor = 'grabbing';
   });
-
   window.addEventListener('mousemove', e => {
     if (!isPanning) return;
-    offsetX = e.clientX - startX;
-    offsetY = e.clientY - startY;
-    updateTransform();
+    const rect = svg.getBoundingClientRect();
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    // convert pixels→viewBox units
+    vb.x -= dx * (vb.width  / rect.width);
+    vb.y -= dy * (vb.height / rect.height);
+    startX = e.clientX;
+    startY = e.clientY;
   });
-
   window.addEventListener('mouseup', () => {
-    if (!isPanning) return;
     isPanning = false;
     svg.style.cursor = 'grab';
   });
 
-  updateTransform();
-
+  // then start your existing update loop
   update();
   setInterval(update, 1000);
   });
