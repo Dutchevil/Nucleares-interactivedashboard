@@ -8,6 +8,11 @@
     #plant-container { width: 100vw; height: 100vh; }
     svg { width: 100%; height: 100%; }
     .highlight-box { fill: none; pointer-events: none; stroke-width: 4; }
+	/* Allow the SVG to be panned & zoomed */
+	#plant-container svg {
+	transform-origin: 0 0;
+	cursor: grab;
+}
   </style>
 </head>
 <body>
@@ -6127,9 +6132,65 @@ function highlightGroupBg(id, color) {
 	highlightPumpBg('pump_condenser', condColor);
 	}
 
-  document.addEventListener('DOMContentLoaded', () => {
-    update();
-    setInterval(update, 1000);
+ document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('plant-container');
+  const svg = container.querySelector('svg');
+  if (!svg) return;
+  let scale = 1, offsetX = 0, offsetY = 0;
+  let isPanning = false, startX, startY;
+
+  function updateTransform() {
+    svg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+  }
+
+svg.addEventListener('wheel', e => {
+  e.preventDefault();
+
+  const rect   = svg.getBoundingClientRect();
+  const mx     = e.clientX - rect.left  - offsetX;
+  const my     = e.clientY - rect.top   - offsetY;
+  const wx     = mx / scale;
+  const wy     = my / scale;
+  const factor = e.deltaY < 0 ? 1.1 : 0.9;
+  let newScale = scale * factor;
+  newScale = Math.max(1, Math.min(newScale, 10));
+
+  if (newScale === 1) {
+    offsetX = 0;
+    offsetY = 0;
+  } else {
+    offsetX = e.clientX - rect.left - wx * newScale;
+    offsetY = e.clientY - rect.top  - wy * newScale;
+  }
+
+  scale = newScale;
+  updateTransform();
+  });
+
+  svg.addEventListener('mousedown', e => {
+    isPanning = true;
+    startX = e.clientX - offsetX;
+    startY = e.clientY - offsetY;
+    svg.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (!isPanning) return;
+    offsetX = e.clientX - startX;
+    offsetY = e.clientY - startY;
+    updateTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isPanning) return;
+    isPanning = false;
+    svg.style.cursor = 'grab';
+  });
+
+  updateTransform();
+
+  update();
+  setInterval(update, 1000);
   });
 </script>
 </body>
