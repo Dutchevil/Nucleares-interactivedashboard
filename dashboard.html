@@ -6136,14 +6136,11 @@ function highlightGroupBg(id, color) {
   const svg = document.querySelector('#plant-container svg');
   if (!svg) return;
 
-  // capture initial viewBox
   const vb = svg.viewBox.baseVal;
   const origW = vb.width, origH = vb.height;
 
-  // pan state
   let isPanning = false, startX, startY;
 
-// capture the original viewBox position once
 const startVBX = vb.x, startVBY = vb.y;
 
 svg.addEventListener('wheel', e => {
@@ -6153,32 +6150,26 @@ svg.addEventListener('wheel', e => {
   const my     = (e.clientY - rect.top ) / rect.height;
   const factor = e.deltaY < 0 ? 0.9 : 1.1;
 
-  // compute new size
   let newW = vb.width  * factor;
   let newH = vb.height * factor;
 
-  // clamp to [orig/10 .. orig]
   const minW = origW / 10, minH = origH / 10;
   const maxW = origW,      maxH = origH;
   newW = Math.min(Math.max(newW, minW), maxW);
   newH = Math.min(Math.max(newH, minH), maxH);
 
   if (newW === origW && newH === origH) {
-    // fully zoomed out: reset pan
     vb.x = startVBX;
     vb.y = startVBY;
   } else {
-    // zoomed in: anchor at cursor
     vb.x += (vb.width  - newW) * mx;
     vb.y += (vb.height - newH) * my;
   }
 
-  // apply new viewBox dimensions
   vb.width  = newW;
   vb.height = newH;
   });
 
-  // PAN: drag to move viewBox
   svg.addEventListener('mousedown', e => {
     isPanning = true;
     startX = e.clientX;
@@ -6190,7 +6181,6 @@ svg.addEventListener('wheel', e => {
     const rect = svg.getBoundingClientRect();
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
-    // convert pixels→viewBox units
     vb.x -= dx * (vb.width  / rect.width);
     vb.y -= dy * (vb.height / rect.height);
     startX = e.clientX;
@@ -6201,7 +6191,6 @@ svg.addEventListener('wheel', e => {
     svg.style.cursor = 'grab';
   });
 
-  // then start your existing update loop
   update();
   setInterval(update, 1000);
   });
