@@ -6147,18 +6147,23 @@ document.addEventListener('DOMContentLoaded', () => {
     center:                false,
     minZoom:               1,
     maxZoom:               10,
-    mouseWheelZoomEnabled: true,
+    mouseWheelZoomEnabled: false,
     dblClickZoomEnabled:   false,
   });
 
-
   const SCALE_BY = 1.2;
+
+  // Re-register wheel with inverted direction
   svgElem.addEventListener('wheel', e => {
     e.preventDefault();
-    const delta = e.deltaY < 0 ? 1 / SCALE_BY : SCALE_BY;
+
+    // flip the sign: wheel down zooms in, wheel up zooms out
+    const delta = e.deltaY > 0
+      ? 1 / SCALE_BY  // now scrolling DOWN zooms IN
+      : SCALE_BY;     // scrolling UP zooms OUT
+
     panZoomInstance.zoomAtPointBy(delta, { x: e.clientX, y: e.clientY });
   });
-
   update();
   setInterval(update, 1000);
   });
