@@ -13,6 +13,14 @@
 	transform-origin: 0 0;
 	cursor: grab;
 }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.2; }
+}
+
+.blink {
+  animation: blink 1s steps(1, start) infinite;
+}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
 
@@ -6090,16 +6098,64 @@ function highlightGroupBg(id, color) {
 }
 
   async function update() {
-    // Core pumps
-    for (let i = 0; i < 3; i++) {
-      const st = await getVar(`COOLANT_CORE_CIRCULATION_PUMP_${i}_STATUS`);
-      highlightPumpBg(`pump_core_${i}`, st);
-    }
-    // Secondary pumps
-    for (let i = 0; i < 3; i++) {
-      const st = await getVar(`COOLANT_SEC_CIRCULATION_PUMP_${i}_STATUS`);
-      highlightPumpBg(`pump_sec_${i}`, st);
-    }
+	
+	// —— Core‐pumps + health check (overload / speed delta) —— //
+	for (let i = 0; i < 3; i++) {
+	const ordered  = await getVar(`COOLANT_CORE_CIRCULATION_PUMP_${i}_ORDERED_SPEED`);
+	const speed    = await getVar(`COOLANT_CORE_CIRCULATION_PUMP_${i}_SPEED`);
+	const overload = await getVar(`COOLANT_CORE_CIRCULATION_PUMP_${i}_OVERLOAD_STATUS`);
+	
+	let col;
+	if (overload === 1) {
+		col = 'red';      // overload: paint red…
+	} else if (Math.abs(speed - ordered) >= 2) {
+		col = 'orange';   // needs maintenance
+	} else if (speed > 0) {
+		col = 'limegreen';
+	} else {
+		col = 'gray';
+	}
+	
+	// draw the background
+	highlightPumpBg(`pump_core_${i}`, col);
+	
+	// now toggle blinking if overload
+	const grp = document.getElementById(`pump_core_${i}`);
+	const bg  = grp.querySelector(`#pump_core_${i}`);
+	if (bg) {
+		if (overload === 1)  bg.classList.add('blink');
+		else                 bg.classList.remove('blink');
+	}
+}
+
+	// —— Secondary‐pumps + health check (overload / speed delta) —— //
+	for (let i = 0; i < 3; i++) {
+	const ordered  = await getVar(`COOLANT_SEC_CIRCULATION_PUMP_${i}_ORDERED_SPEED`);
+	const speed    = await getVar(`COOLANT_SEC_CIRCULATION_PUMP_${i}_SPEED`);
+	const overload = await getVar(`COOLANT_SEC_CIRCULATION_PUMP_${i}_OVERLOAD_STATUS`);
+	
+	let col;
+	if (overload === 1) {
+		col = 'red';      // overload: paint red…
+	} else if (Math.abs(speed - ordered) >= 2) {
+		col = 'orange';   // needs maintenance
+	} else if (speed > 0) {
+		col = 'limegreen';
+	} else {
+		col = 'gray';
+	}
+	
+	// draw the background
+	highlightPumpBg(`pump_sec_${i}`, col);
+	
+	// now toggle blinking if overload
+	const grp = document.getElementById(`pump_sec_${i}`);
+	const bg  = grp.querySelector(`#bg_pump_sec_${i}`);
+	if (bg) {
+		if (overload === 1)  bg.classList.add('blink');
+		else                 bg.classList.remove('blink');
+	}
+}
 	
 	// —— M01/M02/M03 valves
 	for (const v of ['01','02','03']) {
@@ -6145,17 +6201,30 @@ function highlightGroupBg(id, color) {
 	highlightPumpBg(`turbine_bypass_${i}`, col);
 	}
 
-	// Condenser overload
-	const overload = await getVar('CONDENSER_CIRCULATION_PUMP_OVERLOAD_STATUS');
-	const speed   = await getVar('CONDENSER_CIRCULATION_PUMP_SPEED');
-	const ordered = await getVar('CONDENSER_CIRCULATION_PUMP_ORDERED_SPEED');
-	let condColor;
-	if (overload)                       condColor = 'red';
-	else if (Math.abs(speed - ordered) >= 2) condColor = 'orange';
-	else if (speed > 0)                 condColor = 'limegreen';
-	else                                condColor = 'gray';
-	highlightPumpBg('pump_condenser', condColor);
-	
+// —— Condenser pump health check with blinking on overload —— //
+{
+  const ordered  = await getVar('CONDENSER_CIRCULATION_PUMP_ORDERED_SPEED');
+  const speed    = await getVar('CONDENSER_CIRCULATION_PUMP_SPEED');
+  const overload = await getVar('CONDENSER_CIRCULATION_PUMP_OVERLOAD_STATUS'); // 1 or 0
+
+  // pick the base color
+  let condColor;
+  if (overload === 1)                            condColor = 'red';
+  else if (Math.abs(speed - ordered) >= 2)       condColor = 'orange';
+  else if (speed > 0)                            condColor = 'limegreen';
+  else                                           condColor = 'gray';
+
+  // redraw the background rect
+  highlightPumpBg('pump_condenser', condColor);
+
+  // now toggle blinking if overload
+  const grp = document.getElementById('pump_condenser');
+  const bg  = grp.querySelector('#bg_pump_condenser');
+  if (bg) {
+    if (overload === 1)  bg.classList.add('blink');
+    else                 bg.classList.remove('blink');
+  }
+}	
 	
 	// LABELS UPDATES
 
