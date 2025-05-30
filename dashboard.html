@@ -4556,7 +4556,7 @@
       <g class="TextShape">
        <g id="id178">
         <rect class="BoundingBox" stroke="none" fill="none" x="26938" y="7906" width="2047" height="728"/>
-        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="27828" y="8222"><tspan font-family="Liberation Sans, sans-serif" font-size="212px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">D1</tspan></tspan><tspan class="TextPosition" x="27669" y="8460"><tspan font-family="Liberation Sans, sans-serif" font-size="212px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Pump</tspan></tspan></tspan></text>
+        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="27828" y="8222"><tspan font-family="Liberation Sans, sans-serif" font-size="212px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">D1</tspan></tspan><tspan class="TextPosition" x="27669" y="8460"><tspan id="label_condenser_pump" font-family="Liberation Sans, sans-serif" font-size="212px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Pump</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="TextShape">
@@ -6250,6 +6250,17 @@ function highlightGroupBg(id, color) {
 	// split at “Pump” and keep “C2 ” (note the space)
 	const [left] = el.textContent.split('Pump');
 	el.textContent = `${left}Pump: ${pct}%`;
+	}
+	
+	// —— Condenser‐pump label update —— //
+	{
+	const pct = await getVar('CONDENSER_CIRCULATION_PUMP_SPEED');
+	const el  = document.getElementById('label_condenser_pump');
+	if (el) {
+	// split on “Pump” to preserve the base text “Condenser”
+	const [base] = el.textContent.split('Pump');
+	el.textContent = `${base}Pump: ${pct}%`;
+	}
 	}
 }
 
