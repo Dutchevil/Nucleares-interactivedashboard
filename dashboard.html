@@ -4788,19 +4788,19 @@
       <g class="TextShape">
        <g id="id217">
         <rect class="BoundingBox" stroke="none" fill="none" x="17764" y="3906" width="961" height="880"/>
-        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="18155" y="4158"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">A4</tspan></tspan><tspan class="TextPosition" x="18066" y="4315"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Valve</tspan></tspan><tspan class="TextPosition" x="18043" y="4629"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSCV</tspan></tspan></tspan></text>
+        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="18155" y="4158"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">A4</tspan></tspan><tspan class="TextPosition" x="18066" y="4315"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Valve</tspan></tspan><tspan class="TextPosition" x="18043" y="4629"><tspan id="label_mscv_0" font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSCV</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="TextShape">
        <g id="id218">
         <rect class="BoundingBox" stroke="none" fill="none" x="20880" y="3875" width="961" height="880"/>
-        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="21271" y="4127"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">B4</tspan></tspan><tspan class="TextPosition" x="21182" y="4284"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Valve</tspan></tspan><tspan class="TextPosition" x="21159" y="4598"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSCV</tspan></tspan></tspan></text>
+        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="21271" y="4127"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">B4</tspan></tspan><tspan class="TextPosition" x="21182" y="4284"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Valve</tspan></tspan><tspan class="TextPosition" x="21159" y="4598"><tspan id="label_mscv_1" font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSCV</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="TextShape">
        <g id="id219">
         <rect class="BoundingBox" stroke="none" fill="none" x="24088" y="3823" width="961" height="880"/>
-        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="24479" y="4075"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">C4</tspan></tspan><tspan class="TextPosition" x="24390" y="4232"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Valve</tspan></tspan><tspan class="TextPosition" x="24367" y="4546"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSCV</tspan></tspan></tspan></text>
+        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="24479" y="4075"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">C4</tspan></tspan><tspan class="TextPosition" x="24390" y="4232"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Valve</tspan></tspan><tspan class="TextPosition" x="24367" y="4546"><tspan id="label_mscv_2" font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">MSCV</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="TextShape">
@@ -6020,12 +6020,12 @@
 <script>
   // Map each pump status code to a color
   const PUMP_STATUS_COLOR = {
-    4: 'black',    // not installed
-    0: 'gray',         // inactive
-    1: 'orange',       // reaching speed
-    2: 'limegreen',    // speed reached
-    3: 'red',          // requires maintenance
-    5: 'yellow'        // on but not enough energy
+    4: 'black',			// not installed
+    0: 'gray',      	// inactive
+    1: 'orange',       	// reaching speed
+    2: 'limegreen',    	// speed reached
+    3: 'red',          	// requires maintenance
+    5: 'yellow'        	// on but not enough energy
   };
 
   async function getVar(name) {
@@ -6155,7 +6155,17 @@ function highlightGroupBg(id, color) {
 	else if (speed > 0)                 condColor = 'limegreen';
 	else                                condColor = 'gray';
 	highlightPumpBg('pump_condenser', condColor);
+	
+	
+	// LABELS UPDATES
+
+	// —— MSCV Labels display percentage 
+	for (let i = 0; i < 3; i++) {
+	const pct = await getVar(`MSCV_${i}_OPENING_ACTUAL`);
+	const el  = document.getElementById(`label_mscv_${i}`);
+	if (el) el.textContent = `MSCV: ${pct}%`;
 	}
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const svgElem = document.getElementById('myplant');
