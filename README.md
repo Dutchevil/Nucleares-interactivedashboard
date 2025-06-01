@@ -1,39 +1,45 @@
-# Nucleares Dynamic Dashboard
+# 🚀 Nucleares Dynamic Dashboard 💡
 
-## Overview
-A full‐screen, interactive SVG‐based dashboard that visualizes plant equipment status (pumps, valves, turbines) in real time. Equipment highlights change color and blink to reflect live data polled from a local server.
-
-## Features
-- **Real‐time polling**: Fetches variables every second from `http://localhost:8785/?variable=<NAME>`.
-- **Dynamic color coding**:
-  - Gray for off/inactive
-  - Limegreen for active/normal operation
-  - Orange for maintenance alert (speed deviation)
-  - Red + blinking for overload alarm
-  - Yellow for intermediate states (e.g., partially open valves)
-- **SVG pan & zoom**: Use mouse drag to pan, scroll to zoom (inverted direction: scroll‐down → zoom in).
-- **Label updates**: On‐SVG text labels display current pump speed or valve opening percentage.
-- **Blink animation**: Overloaded pumps flash using CSS keyframes.
-
-## How It Works
-1. **Load**: `dashboard.html` embeds a `<svg id="myplant">` of the plant layout.
-2. **Initialize**: On DOMContentLoaded, `svgPanZoom` is configured and the first call to `update()` runs.
-3. **Update loop**: Every 1 s, JavaScript fetches each required variable, computes a color (green/orange/red/yellow/gray), calls either `highlightPumpBg(...)` or `highlightGroupBg(...)` to draw/update a colored `<rect>` behind the relevant SVG group, toggles `.blink` if overload, and updates on‐SVG text labels.
-4. **Interact**: Use mouse drag to pan, scroll wheel to zoom (custom inverted behavior).
-
-## Dependencies
-- [svg-pan-zoom v3.6.1](https://github.com/svg-pan-zoom/svg-pan-zoom) (loaded via CDN).
-- A local HTTP endpoint on port 8785 that returns plain text for requests like `/?variable=PUMP_SPEED`.
-
-## Usage
-1. Clone this repo.
-2. Run your local data server on port 8785, serving variables like `COOLANT_CORE_CIRCULATION_PUMP_0_SPEED`.
-3. Open `dashboard.html` in a modern browser.
-4. Watch as pump and valve statuses update live, with color‐coded highlights and blinking alarms.
-
-## Extending
-- Add new `<g id="new_equipment">…</g>` to the SVG and write matching logic inside `update()`.
-- Modify CSS `.blink` for different animation effects.
-- Adjust polling interval via `setInterval(update, <ms>)`.
+> **Welcome to the most electrifying, blinking‐alive SVG dashboard on GitHub!**  
+> Monitor pumps, valves, and turbines in **real time** with colors, emojis, and pulses! 🔥
 
 ---
+
+## 🎯 Overview
+
+The **Nucleares Dynamic Dashboard** is a FULL-SCREEN, INTERACTIVE SVG-based web page that shows your entire plant layout—**pumps**, **valves**, **turbines**, and more—**LIVE** ⚡.  
+Every second, it polls a local data server, updates colors, blinks alarms, and keeps you on top of your system’s health! 🚨
+
+---
+
+## ✨ Key Features
+
+- 🖼️ **Full-Screen SVG**  
+  - An inline `<svg id="myplant">` spans the entire viewport—zoom & pan anywhere to see every detail! 🔍
+
+- 🔄 **Real-Time Polling (1 sec interval)**  
+  - Uses `fetch('http://localhost:8785/?variable=<NAME>')` to retrieve live values.  
+  - Accepts plain `"true"`, `"false"`, or numeric strings like `"47.2"`.  
+  - Magically updates every second—no manual refresh needed! ⏱️
+
+- 🎨 **Dynamic Color Coding**  
+  - **⚫ Black** = Pump/Component NOT INSTALLED  
+  - **🟢 Lime-Green** = Normal Operation  
+  - **⚠️ Orange** = Maintenance Alert (speed deviates ≥ 2%)  
+  - **🔴 Red** = Overload Alarm (and it BLINKS!)  
+  - **⚪ Gray** = Inactive/Off  
+  - **🟡 Yellow** = Partial/Intermediate State  
+  - Colors pop behind each pump or valve so you instantly know what’s happening! 🌈
+
+- 🚨 **Blinking Alarms**  
+  - Overloaded pumps/valves get a pulsing, **“blink‐blink”** CSS animation.  
+  - Your eyes immediately catch any 🚨critical🚨 condition!  
+
+- 🖱️ **SVG Pan & Zoom**  
+  - Integrated [svg-pan-zoom v3.6.1](https://github.com/svg-pan-zoom/svg-pan-zoom) for smooth navigation.  
+  - Inverted scroll: **scroll-down to ZOOM IN**, scroll-up to zoom out (just the way you like it!).  
+  - Drag-and-drop panning—move around your plant with ease.  
+
+- ✏️ **Live Label Updates**  
+  - Each pump/valve has a text label (e.g. `Pump: 75%`, `MSCV: 40%`).  
+  - The script rewrites `.textContent` every cycle—no stale numbers! 📊
