@@ -8431,6 +8431,15 @@ async function update() {
       const el  = document.getElementById(`label_mscv_${i}`);
       if (el) el.textContent = `MSCV: ${pct}%`;
     }
+	// Primary pump labels
+    for (let i = 0; i < 3; i++) {
+      const pct = normalize(all[`COOLANT_CORE_CIRCULATION_PUMP_${i}_SPEED`]);
+      const el  = document.getElementById(`label_pump_core_${i}`);
+      if (el) {
+        const [left] = el.textContent.split('Pump');
+        el.textContent = `${left}Pump: ${pct}%`;
+      }
+    }
 	// SECONDARY pump labels
     for (let i = 0; i < 3; i++) {
       const pct = normalize(all[`COOLANT_SEC_CIRCULATION_PUMP_${i}_SPEED`]);
@@ -8449,21 +8458,17 @@ async function update() {
         el.textContent = `${base}Pump: ${pct}%`;
       }
     }
-// CORE_EXTERNAL_COOLANT_RESERVOIR_VOLUME label
-{
-  // raw value in liters
-  const liters = all['CORE_EXTERNAL_COOLANT_RESERVOIR_VOLUME'];
-  // convert to kL, round if you like
-  const kL = (liters / 1000).toFixed(0);
-  const el = document.getElementById('label_external_cool_res');
-  if (el) {
-    // replace the leading "500 kL" (or whatever) with your computed one
-    el.textContent = el.textContent.replace(
-      /^[\d.]+\s*kL/,
-      `${kL} kL`
-    );
-  }
-}
+    // CORE_EXTERNAL_COOLANT_RESERVOIR_VOLUME label
+	{
+      const liters = all['CORE_EXTERNAL_COOLANT_RESERVOIR_VOLUME'];
+      const kL = (liters / 1000).toFixed(0);
+      const el = document.getElementById('label_external_cool_res');
+		if (el) {
+		el.textContent = el.textContent.replace(
+		/^[\d.]+\s*kL/,
+		`${kL} kL`);
+		}
+	}
 
   } catch (err) {
     console.error('Error during update loop:', err);
