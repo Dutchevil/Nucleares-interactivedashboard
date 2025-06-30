@@ -4069,13 +4069,13 @@
       <g class="TextShape">
        <g id="id58">
         <rect class="BoundingBox" stroke="none" fill="none" x="3452" y="3715" width="1156" height="1037"/>
-        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="3871" y="3967"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Core</tspan></tspan></tspan><tspan class="TextParagraph"><tspan class="TextPosition" x="3878" y="4124"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Pool</tspan></tspan></tspan><tspan class="TextParagraph"><tspan class="TextPosition" x="3770" y="4281"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Coolant</tspan></tspan></tspan><tspan class="TextParagraph"><tspan class="TextPosition" x="3872" y="4438"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Tank</tspan></tspan></tspan><tspan class="TextParagraph"><tspan class="TextPosition" x="3859" y="4595"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="400" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">80 kL</tspan></tspan></tspan></text>
+        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="3871" y="3967"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Core</tspan></tspan></tspan><tspan class="TextParagraph"><tspan class="TextPosition" x="3878" y="4124"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Pool</tspan></tspan></tspan><tspan class="TextParagraph"><tspan class="TextPosition" x="3770" y="4281"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Coolant</tspan></tspan></tspan><tspan class="TextParagraph"><tspan class="TextPosition" x="3872" y="4438"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Tank</tspan></tspan></tspan><tspan class="TextParagraph"><tspan class="TextPosition" x="3859" y="4595"><tspan id="label_core_pool_tank_vol" font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="400" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">80 kL</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="TextShape">
        <g id="id59">
         <rect class="BoundingBox" stroke="none" fill="none" x="3526" y="10732" width="1106" height="1508"/>
-        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="3819" y="10984"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Primary</tspan></tspan><tspan class="TextPosition" x="3819" y="11141"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre"> Circuit </tspan></tspan><tspan class="TextPosition" x="3819" y="11298"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Coolant</tspan></tspan><tspan class="TextPosition" x="3921" y="11455"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Tank</tspan></tspan><tspan class="TextPosition" x="3869" y="11612"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="400" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">150 kL</tspan></tspan></tspan></text>
+        <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="3819" y="10984"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Primary</tspan></tspan><tspan class="TextPosition" x="3819" y="11141"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre"> Circuit </tspan></tspan><tspan class="TextPosition" x="3819" y="11298"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Coolant</tspan></tspan><tspan class="TextPosition" x="3921" y="11455"><tspan font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="700" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">Tank</tspan></tspan><tspan class="TextPosition" x="3869" y="11612"><tspan id="label_primary_circuit_tank_vol" font-family="Liberation Sans, sans-serif" font-size="141px" font-weight="400" fill="rgb(255,255,255)" stroke="none" style="white-space: pre">150 kL</tspan></tspan></tspan></text>
        </g>
       </g>
       <g id="valve_ion_out" class="Group">
@@ -8819,27 +8819,99 @@ async function update() {
         el.textContent = `${base}Pump: ${pct}%`;
       }
     }
-    // CORE_EXTERNAL_COOLANT_RESERVOIR_VOLUME label
-	{
-      const liters = all['CORE_EXTERNAL_COOLANT_RESERVOIR_VOLUME'];
-      const kL = (liters / 1000).toFixed(0);
-      const el = document.getElementById('label_external_cool_res');
-		if (el) {
-		el.textContent = el.textContent.replace(
-		/^[\d.]+\s*kL/,
-		`${kL} kL`);
-		}
-	}
 	
     // CORE_EXTERNAL_COOLANT_RESERVOIR_VOLUME label
 	{
-      const liters = all['CONDENSER_VOLUME'];
-      const kL = (liters / 1000).toFixed(0);
-      const el = document.getElementById('label_condenser_vol');
-		if (el) {
-		el.textContent = el.textContent.replace(
-		/^[\d.]+\s*kL/,
-		`${kL} kL`);
+		const ext    = vessels['EXTERNAL COOLANT RESERVOIR'];
+		if (!ext) return;
+		const liters = ext.Volume[0];
+		const kL     = Math.round(liters / 1000);
+		
+		const el = document.getElementById('label_external_cool_res');
+		if (!el) return;
+		el.textContent = `${kL} kL`;
+		
+		const pillId = 'pill_external_cool_res';
+		const old    = document.getElementById(pillId);
+		if (old) old.remove();
+		
+		let fill;
+		if      (liters <= 150000)  fill = 'red';       // 0–12 000 L
+		else if (liters <= 300000)  fill = 'yellow';    // 36 000–48 000 L
+		else                        fill = 'limegreen';       // > 48 000 L
+		
+		const b    = el.getBBox();
+		const padX = 20, padY = 4;
+		const H    = b.height + 5 * padY;
+		const R    = H / 2;
+		
+		const svgNS = 'http://www.w3.org/2000/svg';
+		const rect  = document.createElementNS(svgNS, 'rect');
+		rect.setAttribute('id',     pillId);
+		rect.setAttribute('x',      b.x - padX);
+		rect.setAttribute('y',      b.y - padY);
+		rect.setAttribute('width',  b.width + 2 * padX);
+		rect.setAttribute('height', H);
+		rect.setAttribute('rx',     R);
+		rect.setAttribute('fill',   fill);
+		
+		const container = el.closest('g[id]');
+		if (container) {
+			const textNode = container.querySelector('text');
+			container.insertBefore(rect, textNode);
+		} else {
+			el.ownerSVGElement.insertBefore(rect, el.ownerSVGElement.firstChild);
+		}
+	}
+
+    // ── CORE_EXTERNAL_COOLANT_RESERVOIR_VOLUME label + pill ─────────────────
+	{
+	// 1) grab & compute kL
+	const liters = all['CONDENSER_VOLUME'];
+	const kL     = Math.round(liters / 1000);
+	
+	// 2) update the <tspan> text
+	const el = document.getElementById('label_condenser_vol');
+	if (!el) return;
+	el.textContent = `${kL} kL`;
+	
+	// 3) remove any old pill
+	const pillId = 'pill_condenser_vol';
+	const old    = document.getElementById(pillId);
+	if (old) old.remove();
+	
+	// 4) pick colour per gauge bands (using raw litres)
+	let fill;
+	if      (liters <= 72000)  fill = 'red';       //  0–12 000 L
+	else if (liters <= 144000)  fill = 'yellow';    // 12 000–24 000 L
+	else if (liters <= 216000)  fill = 'limegreen'; // 24 000–36 000 L
+	else if (liters <= 288000)  fill = 'yellow';    // 36 000–48 000 L
+	else                       fill = 'red';       // 48 000 L+
+	
+	// 5) measure text & compute pill size
+	const b    = el.getBBox();
+	const padX = 20, padY = 4;               
+	const H    = b.height + 2 * padY;
+	const R    = H / 2;
+	
+	// 6) build the <rect>
+	const svgNS = 'http://www.w3.org/2000/svg';
+	const rect  = document.createElementNS(svgNS, 'rect');
+	rect.setAttribute('id',     pillId);
+	rect.setAttribute('x',      b.x - padX);
+	rect.setAttribute('y',      b.y - padY);
+	rect.setAttribute('width',  b.width + 2 * padX);
+	rect.setAttribute('height', H);
+	rect.setAttribute('rx',     R);
+	rect.setAttribute('fill',   fill);
+	
+	// 7) insert it behind your text
+	const container = el.closest('g[id]');
+	if (container) {
+		const textNode = container.querySelector('text');
+		container.insertBefore(rect, textNode);
+	} else {
+		el.ownerSVGElement.insertBefore(rect, el.ownerSVGElement.firstChild);
 		}
 	}
 	
@@ -8856,8 +8928,131 @@ async function update() {
 		el.textContent = el.textContent.replace(
 		/^[\d.]+\s*kL/,
 		`${kL} kL`);
+
+	const pillId = `pill_sg${i}_vol`;
+	const old     = document.getElementById(pillId);
+	if (old) old.remove();
+	
+	const v = parseFloat(kL);
+	let fill;
+	if      (v <= 12) fill = 'red';
+	else if (v <= 24) fill = 'yellow';
+	else if (v <= 36) fill = 'limegreen';
+	else if (v <= 48) fill = 'yellow';
+	else              fill = 'red';
+	
+	const b    = el.getBBox();
+	const padX = 100, padY = 4;
+	const H    = b.height + 2*padY;
+	const R    = H/2;
+	
+	const svgNS = 'http://www.w3.org/2000/svg';
+	const rect  = document.createElementNS(svgNS, 'rect');
+	rect.setAttribute('id',     pillId);
+	rect.setAttribute('x',      b.x - padX);
+	rect.setAttribute('y',      b.y - padY);
+	rect.setAttribute('width',  b.width  + 2*padX);
+	rect.setAttribute('height', H);
+	rect.setAttribute('rx',     R);
+	rect.setAttribute('fill',   fill);
+	
+	const container = el.closest('g[id]');
+	if (container) {
+		const textNode = container.querySelector('text');
+		container.insertBefore(rect, textNode);
+	}
+			}
+	}
+
+	// ── PRIMARY CIRCUIT COOLANT TANK Volume + pill ────────────────────────
+	{
+		const tank   = vessels['PRIMARY CIRCUIT COOLANT TANK'];
+		if (!tank) return;
+		const liters = tank.Volume[0];
+		const kL     = Math.round(liters / 1000);
+		
+		const el = document.getElementById('label_primary_circuit_tank_vol');
+		if (!el) return;
+		el.textContent = `${kL} kL`;
+		
+		const pillId = 'pill_primary_circuit_tank_vol';
+		const old    = document.getElementById(pillId);
+		if (old) old.remove();
+		
+		let fill;
+		if      (liters <= 45000)  fill = 'red';
+		else if (liters <= 90000)  fill = 'yellow';
+		else                        fill = 'limegreen';
+		
+		const b    = el.getBBox();
+		const padX = 20, padY = 4;
+		const H    = b.height + 2 * padY;
+		const R    = H / 2;
+		
+		const svgNS = 'http://www.w3.org/2000/svg';
+		const rect  = document.createElementNS(svgNS, 'rect');
+		rect.setAttribute('id',     pillId);
+		rect.setAttribute('x',      b.x - padX);
+		rect.setAttribute('y',      b.y - padY);
+		rect.setAttribute('width',  b.width + 2 * padX);
+		rect.setAttribute('height', H);
+		rect.setAttribute('rx',     R);
+		rect.setAttribute('fill',   fill);
+		
+		const container = el.closest('g[id]');
+		if (container) {
+			const textNode = container.querySelector('text');
+			container.insertBefore(rect, textNode);
+		} else {
+			el.ownerSVGElement.insertBefore(rect, el.ownerSVGElement.firstChild);
 		}
 	}
+
+
+	// ── Core Pool coolant TANK Volume + pill ────────────────────────
+	{
+		const tank   = vessels['CORE POOL COOLANT TANK'];
+		if (!tank) return;
+		const liters = tank.Volume[0];
+		const kL     = Math.round(liters / 1000);
+		
+		const el = document.getElementById('label_core_pool_tank_vol');
+		if (!el) return;
+		el.textContent = `${kL} kL`;
+		
+		const pillId = 'pill_core_pool_tank_vol';
+		const old    = document.getElementById(pillId);
+		if (old) old.remove();
+		
+		let fill;
+		if      (liters <= 23000)  fill = 'red';
+		else if (liters <= 45000)  fill = 'yellow';
+		else                        fill = 'limegreen';
+		
+		const b    = el.getBBox();
+		const padX = 20, padY = 4;
+		const H    = b.height + 2 * padY;
+		const R    = H / 2;
+		
+		const svgNS = 'http://www.w3.org/2000/svg';
+		const rect  = document.createElementNS(svgNS, 'rect');
+		rect.setAttribute('id',     pillId);
+		rect.setAttribute('x',      b.x - padX);
+		rect.setAttribute('y',      b.y - padY);
+		rect.setAttribute('width',  b.width + 2 * padX);
+		rect.setAttribute('height', H);
+		rect.setAttribute('rx',     R);
+		rect.setAttribute('fill',   fill);
+		
+		const container = el.closest('g[id]');
+		if (container) {
+			const textNode = container.querySelector('text');
+			container.insertBefore(rect, textNode);
+		} else {
+			el.ownerSVGElement.insertBefore(rect, el.ownerSVGElement.firstChild);
+		}
+	}
+
 
 
   } catch (err) {
